@@ -1,0 +1,18 @@
+var continente= [{
+	"Nome" : "África"
+},
+	{
+	"Nome" : "Antártida"		
+},
+	{
+	"Nome" : "América"		
+},	
+	{
+	"Nome" : "Ásia"		
+},
+	{
+	"Nome" : "Europa"		
+},
+	{
+	"Nome" : "Oceania"		
+}]

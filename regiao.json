@@ -1,0 +1,15 @@
+var regiao= [{
+	"Nome" : "Centro-Oeste"
+},
+	{
+	"Nome" : "Nordeste"		
+},
+	{
+	"Nome" : "Norte"		
+},	
+	{
+	"Nome" : "Sudeste"		
+},
+	{
+	"Nome" : "Sul"		
+}]
