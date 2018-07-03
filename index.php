@@ -30,7 +30,7 @@ if(isset($_SESSION['userlogin'])){
     <?php
         if(isset($_GET['sair'])){
             unset($_SESSION['userlogin']);
-            echo '<div> Deslogado</div>';
+            echo '<div id="snackbarl">Usuario Deslogado</div>';
         }
 
     ?>

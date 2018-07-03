@@ -17,9 +17,6 @@ function show_menu_quanti(){
         $("#menu-sim").show();
     }else{
         $("#menu-sim").hide();
+        $("#inQuali").show();
     }
 }
-
-$(".clickable-row").click(function() {
-    window.location = $(this).data("href");
-});

@@ -6,7 +6,7 @@
 
     if(!isset($_SESSION['userlogin'])){
         unset($_SESSION['userlogin']);
-        header("Location: index.php");
+        header("Location: index.php?sair=true");
     }
 
     $stats = mysqli_query($conexao, "SELECT * FROM noticias");
@@ -20,69 +20,31 @@
 
       <div class="parte-central">
           <?php include "inc/mtop.php"; ?>
-        <h2>Estatísticas</h2>
 
-        <div class="container-flex" id="central">
-          <div class="inf-boxes"> 
-            <div style="padding: 5px;">
+          <div class="corpo-meio">
+            <h2> Últimas Cadastradas </h2>
 
-              <img src="Imagens/visitors.png" class="tam-fix-box">
+              <?php
 
-            </div>
-            <h5> <button class="btn btn-primary">  <?php echo $csu; ?></button></h5>
-
+              $noticia = mysqli_query($conexao,"SELECT * FROM noticias ORDER BY idNoticias desc LIMIT 5");
+              $i = 1;
+              while($noticias = mysqli_fetch_assoc($noticia)) {
+                  echo '<div class="panel panel-info resultpanel">
+                             <div class="panel-body">
+                                <div class="col-lg-4">Titulo Original: '.$noticias['tituloOriginalNoticia'].'</div>
+                                <div class="col-lg-4">Titulo Portugues: '.$noticias['tituloOriginalNoticia'].'</div>
+                                <div class="col-lg-4">Fonte Noticia: '.$noticias['fonteNoticia'].'</div>
+                                <div class="col-lg-12">Link da Noticia: '.$noticias['linkNoticia'].'</div>
+                                <div class="col-lg-4">Data Publicação: '.date('d/m/Y', strtotime($noticias['dataPublicacao'])).'</div>
+                                <div class="col-lg-4">Data Atualização: '.date('d/m/Y', strtotime($noticias['dataAtualizacao'])).'</div>
+                                <div class="col-lg-4">Data Busca: '.date('d/m/Y', strtotime($noticias['dataBusca'])).'</div>    
+                             </div>
+                        </div>';
+              }
+              ?>
           </div>
-          
-          <div class="inf-boxes"> 
-
-            <div style="padding: 5px;">
-
-              <img src="Imagens/alvo.png" class="tam-fix-box">
-
-            </div>
-            <h5><button class="btn btn-primary"> <?php echo $cs; ?></button></h5>
-
-          </div>
-
-
-        </div>
-
-        <h2> Últimas Cadastradas </h2>
-
-          <div class="table-responsive">
-              <table class="table table-striped table-hover">
-                  <thead>
-                  <tr>
-                      <th>#</th>
-                      <th>Titulo Noticia Original</th>
-                      <th>Titulo Noticia Português</th>
-                      <th>Fonte</th>
-                      <th>Link Noticia</th>
-                      <th>Data Publicação</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <?php
-
-                  $noticia = mysqli_query($conexao,"SELECT * FROM noticias LIMIT 5");
-                  $i = 1;
-                  while($noticias = mysqli_fetch_assoc($noticia)) {
-                      echo '<tr>
-                                    <th scope="row">'.$i.'</th>
-                                    <td>'.$noticias['tituloOriginalNoticia'].'</td>
-                                    <td>'.$noticias['tituloNoticiaPortugues'].'</td>
-                                    <td>'.$noticias['fonteNoticia'].'</td>
-                                    <td>'.$noticias['linkNoticia'].'</td>
-                                    <td>'.$noticias['linkNoticia'].'</td>';
-                      $i++;
-                  }
-                  ?>
-                  </tbody>
-              </table>
-          </div>
-
       </div>    
-    </div>
+
 <?php
     include "inc/footer.php";
 ?>

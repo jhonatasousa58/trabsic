@@ -34,6 +34,7 @@
         $referenciaI = mysqli_real_escape_string($conexao, $_POST['referenciaInicial']);
         $referenciaF = mysqli_real_escape_string($conexao, $_POST['referenciaFinal']);
         $dadosQ = mysqli_real_escape_string($conexao, $_POST['dadosQ']);
+        $infoQual = mysqli_real_escape_string($conexao, $_POST['infoQuali']);
             if($dadosQ == "sim"){
                 $infoQual = mysqli_real_escape_string($conexao, $_POST['infoQuali']);
                 $nsuspeitos = mysqli_real_escape_string($conexao, $_POST['suspeitos']);
@@ -43,7 +44,7 @@
                 $outrosD = mysqli_real_escape_string($conexao, $_POST['outroDados']);
                 $cadD = mysqli_query($conexao,"INSERT INTO dadosdoenca(periodoReferenciaInicio, periodoReferenciaFinal, dadosQuantitativos, informacoesQualitativas, nCasosSuspeitos, nCasosConfirmados, nCasosProvaveis, nObitos, outrosDados, noticias_idNoticias, doencas_idDoenca, nomeD) VALUES ('$referenciaI', '$referenciaF', '$dadosQ', '$infoQual', '$nsuspeitos', '$nconfirmados', '$nprovaveis', '$nobitos', '$outrosD', '$idN', '$doencaN', '$nomeDo')");
             }else{
-                $cadD = mysqli_query($conexao,"INSERT INTO dadosdoenca(periodoReferenciaInicio, periodoReferenciaFinal, dadosQuantitativos, informacoesQualitativas, nCasosSuspeitos, nCasosConfirmados, nCasosProvaveis, nObitos, outrosDados, noticias_idNoticias, doencas_idDoenca, nomeD) VALUES ('$referenciaI', '$referenciaF', '$dadosQ', NULL, NULL, NULL, NULL, NULL, NULL, '$idN', '$doencaN', '$nomeDo')");
+                $cadD = mysqli_query($conexao,"INSERT INTO dadosdoenca(periodoReferenciaInicio, periodoReferenciaFinal, dadosQuantitativos, informacoesQualitativas, nCasosSuspeitos, nCasosConfirmados, nCasosProvaveis, nObitos, outrosDados, noticias_idNoticias, doencas_idDoenca, nomeD) VALUES ('$referenciaI', '$referenciaF', '$dadosQ', '$infoQual', NULL, NULL, NULL, NULL, NULL, '$idN', '$doencaN', '$nomeDo')");
             }
 
         $idD = mysqli_insert_id($conexao);
@@ -104,8 +105,6 @@
                                 $("#menu-nacional").hide();
                                 $("#menu-internacional").hide();
                                 $("#menu-sim").hide();
-                                $("#inQuali").hide();
-
                             });
 
                         </script>
@@ -125,7 +124,7 @@
                             <div class="menu-info col-lg-6">
                                 <div class="form-group mb-3 padding-10">
                                     <label for="regiao">10.1) DIGITE A(S) REGIÃO(OES):</label>
-                                    <input type="text" class="form-control" id="regiao" name="regiao" required placeholder="Digite a(s) Região(ões)">
+                                    <input type="text" class="form-control" id="regiao" name="regiao" placeholder="Digite a(s) Região(ões)">
                                 </div>
                                 <div class="form-group mb-3 padding-10">
                                     <label for="inNacional">10.3) CIDADE/MUNICÍPIO:</label>
@@ -148,7 +147,7 @@
                             <div class="menu-info col-lg-6">
                                 <div class="form-group mb-3 padding-10">
                                     <label for="continente">10.1) INFORME O PAÍS:</label>
-                                    <input type="text" class="form-control" id="continente" required name="continente" placeholder="Digite o(s) Continente(s)">
+                                    <input type="text" class="form-control" id="continente" name="continente" placeholder="Digite o(s) Continente(s)">
                                 </div>
                                 <div class="form-group mb-3 padding-10">
                                     <label for="rePais">10.3) REGIÃO DO PAÍS:</label>
@@ -230,10 +229,79 @@
                     <button type="submit" name="btncadD" class="btn btn-success"> Cadastrar</button>
                 </div>
             </form>
-
+            <br>
+            <?php
+            if(isset($_POST['btncadD'])) {
+                echo '<h3>Doenças Cadastradas nesta Noticia:</h3>';
+                $doenca = mysqli_query($conexao, "SELECT * FROM dadosdoenca WHERE noticias_idNoticias = '$idN'");
+                $i = 1;
+                while($doencas = mysqli_fetch_assoc($doenca)) {
+                    echo '<div class="panel panel-info resultpanel col-lg-3">
+                             <div class="panel-body">
+                                <div class="col-lg-9">'.$doencas['nomeD'].'</div>
+                                <div class="col-lg-3"> 
+                                    <button class="btn btn-danger delete_product pull-right" data-id="'.$doencas['iddadosDoenca'].'">Excluir</button>
+                                </div>
+                             </div>
+                        </div>';
+                    $i++;
+                }
+            }
+            ?>
 
 
         </div>
     </div>
 </div>
+    <script>
+        $(document).ready(function(){
+            $('.delete_product').click(function(e){
+                e.preventDefault();
+                var pid = $(this).attr('data-id');
+                var parent = $(this).parent("div").parent("div");
+                bootbox.dialog({
+                    message: "Tem certeza que deseja deletar ?",
+                    title: "<i class='glyphicon glyphicon-trash'></i> Excluir!",
+                    buttons: {
+                        success: {
+                            label: "Não",
+                            className: "btn-success",
+                            callback: function() {
+                                $('.bootbox').modal('hide');
+                            }
+                        },
+                        danger: {
+                            label: "Sim!",
+                            className: "btn-danger",
+                            callback: function() {
+                                /*
+                                using $.ajax();
+                                $.ajax({
+                                    type: 'POST',
+                                    url: 'delete.php',
+                                    data: 'delete='+pid
+                                })
+                                .done(function(response){
+                                    bootbox.alert(response);
+                                    parent.fadeOut('slow');
+                                })
+                                .fail(function(){
+                                    bootbox.alert('Something Went Wrog ....');
+                                })
+                                */
+                                $.post('excluirdadosd.php', { 'delete3':pid })
+                                    .done(function(response){
+                                        bootbox.alert(response);
+                                        parent.fadeOut('slow');
+                                    })
+                                    .fail(function(){
+                                        bootbox.alert('Aconteceu algo de errado ....');
+                                    })
+                            }
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 <?php include "inc/footer.php"; ?>

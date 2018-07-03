@@ -123,7 +123,7 @@
                                 */
 
 
-                                $.post('excluir.php', { 'delete1':pid })
+                                $.post('excluiruser.php', { 'delete1':pid })
                                     .done(function(response){
                                         bootbox.alert(response);
                                         parent.fadeOut('slow');

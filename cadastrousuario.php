@@ -1,8 +1,7 @@
-<?php 
-include 'inc/header.php'; 
-include 'inc/conectDB.php'; 
-
+<?php
 session_start();
+include 'inc/header.php'; 
+include 'inc/conectDB.php';
 
 ?>
 
@@ -16,8 +15,37 @@ session_start();
             <br>
             <center>
                 <h3>Cadastro de Usuário</h3>
+                <?php
+                if(isset($_POST['cadU'])){
+                    $nomeUser = mysqli_real_escape_string($conexao, $_POST['nome']);
+                    $cargoUser = mysqli_real_escape_string($conexao, $_POST['cargo']);
+                    $loginUser = mysqli_real_escape_string($conexao, $_POST['login']);
+                    $senhaUser = md5(mysqli_real_escape_string($conexao, $_POST['senha']));
+                    if($cargoUser == "Administrador" || $cargoUser == "administrador"){
+                        $nivelUser = 2;
+                    }else{
+                        $nivelUser = 1;
+                    }
+                    $data = date("Y-m-d H:i:s");
 
-                <form method="post" action="caduser.php">
+                    $verifica = mysqli_query($conexao, "SELECT * FROM usuario WHERE loginUsuario = '$loginUser'");
+                    $cv = mysqli_num_rows($verifica);
+                    if($cv > 0){
+                        echo '<div class="panel panel-danger"><div class="panel-body">Login ja existente</div></div>';
+                    }else {
+                        $cadUser = mysqli_query($conexao, "INSERT INTO usuario(nomeUsuario, loginUsuario, senhaUsuario, cargoUsuario, dataCadastro, nivelAcesso) VALUES ('$nomeUser', '$loginUser', '$senhaUser', '$cargoUser', '$data', '$nivelUser')");
+                    }
+
+
+                    if(mysqli_affected_rows($conexao)){
+                        echo '<div class="panel panel-success"><div class="panel-body">Usuario Cadastrado com sucesso!</div></div>';
+                    }else{
+                        echo "Nao Cadastrou!";
+                    }
+
+                }
+                ?>
+                <form method="post" action="">
                     <table border="7">
                         <tr>
                             <td colspan="2"><center><h3>Informações Pessoais</h3></center></td>
@@ -33,7 +61,7 @@ session_start();
                         </tr>
 
                         <tr>
-                            <td colspan="2"><center><h3>Entrada de dados para o logoff</h3>Digite apenas letras minúsculas
+                            <td colspan="2"><center><h3>Entrada de dados para o login</h3>Digite apenas letras minúsculas
                                     e sem espaços em branco (preenchimento obrigatório)</center></td>
                         </tr>
                         <tr>
@@ -53,7 +81,7 @@ session_start();
                             <td colspan="2"><center>
                                     <input type="reset" value="Limpar Formulario">
                                     &nbsp;&nbsp;&nbsp;
-                                    <input type="submit" value="- Enviar Dados -">
+                                    <input type="submit" name="cadU" value="- Enviar Dados -">
                                 </center></td>
                         </tr>
                     </table>
