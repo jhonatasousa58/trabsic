@@ -38,95 +38,113 @@
                         <?php
                         if(isset($_POST['btnbusca'])){
                             $i = 1;
-
-                            while($record = mysqli_fetch_assoc($bnot)) {
+                            if($busca == "" || $busca == " "){
+                                while ($record = mysqli_fetch_assoc($bnot)) {
                                     echo '<div class="panel panel-info resultpanel">
                                                  <div class="panel-body">
-                                                    <div class="col-lg-4">Titulo Original: '.$record['tituloOriginalNoticia'].'</div>
-                                                    <div class="col-lg-4">Titulo Portugues: '.$record['tituloOriginalNoticia'].'</div>
-                                                    <div class="col-lg-4">Fonte Noticia: '.$record['fonteNoticia'].'</div>
-                                                    <div class="col-lg-12">Link da Noticia: '.$record['linkNoticia'].'</div>
-                                                    <div class="col-lg-4">Data Publicação: '.date('d/m/Y', strtotime($record['dataPublicacao'])).'</div>
-                                                    <div class="col-lg-4">Data Atualização: '.date('d/m/Y', strtotime($record['dataAtualizacao'])).'</div>
-                                                    <div class="col-lg-4">Data Busca: '.date('d/m/Y', strtotime($record['dataBusca'])).'</div>
+                                                    <div class="col-lg-4">Titulo Original: ' . $record['tituloOriginalNoticia'] . '</div>
+                                                    <div class="col-lg-4">Titulo Portugues: ' . $record['tituloOriginalNoticia'] . '</div>
+                                                    <div class="col-lg-4">Fonte Noticia: ' . $record['fonteNoticia'] . '</div>
+                                                    <div class="col-lg-12">Link da Noticia: ' . $record['linkNoticia'] . '</div>
+                                                    <div class="col-lg-4">Data Publicação: ' . date('d/m/Y', strtotime($record['dataPublicacao'])) . '</div>
+                                                    <div class="col-lg-4">Data Atualização: ' . date('d/m/Y', strtotime($record['dataAtualizacao'])) . '</div>
+                                                    <div class="col-lg-4">Data Busca: ' . date('d/m/Y', strtotime($record['dataBusca'])) . '</div>
                                                     <div class="col-lg-12">
-                                                        <button class="btn btn-danger delete_product pull-right" style="margin-left: 10px;" data-id="'.$record['idNoticias'].'">Excluir</button>
-                                                        <a class="btn btn-success pull-right" href="ver.php?id='.$record['idNoticias'].'">Ver</a>
+                                                        <button class="btn btn-danger delete_product pull-right" style="margin-left: 10px;" data-id="' . $record['idNoticias'] . '">Excluir</button>
+                                                        <a class="btn btn-success pull-right" href="ver.php?id=' . $record['idNoticias'] . '">Ver</a>
                                                     </div>    
                                                  </div>
-                                            </div>' ;
-                            }
-                            while($record = mysqli_fetch_assoc($bdoe)) {
-                                $sql = mysqli_query($conexao, "SELECT * FROM noticias WHERE idNoticias = '$record[noticias_idNoticias]' GROUP BY idNoticias");
-                                while($record = mysqli_fetch_assoc($sql)) {
+                                            </div>';
+                                }
+                            }else {
+                                while ($record = mysqli_fetch_assoc($bnot)) {
+                                    echo '<div class="panel panel-info resultpanel">
+                                                 <div class="panel-body">
+                                                    <div class="col-lg-4">Titulo Original: ' . $record['tituloOriginalNoticia'] . '</div>
+                                                    <div class="col-lg-4">Titulo Portugues: ' . $record['tituloOriginalNoticia'] . '</div>
+                                                    <div class="col-lg-4">Fonte Noticia: ' . $record['fonteNoticia'] . '</div>
+                                                    <div class="col-lg-12">Link da Noticia: ' . $record['linkNoticia'] . '</div>
+                                                    <div class="col-lg-4">Data Publicação: ' . date('d/m/Y', strtotime($record['dataPublicacao'])) . '</div>
+                                                    <div class="col-lg-4">Data Atualização: ' . date('d/m/Y', strtotime($record['dataAtualizacao'])) . '</div>
+                                                    <div class="col-lg-4">Data Busca: ' . date('d/m/Y', strtotime($record['dataBusca'])) . '</div>
+                                                    <div class="col-lg-12">
+                                                        <button class="btn btn-danger delete_product pull-right" style="margin-left: 10px;" data-id="' . $record['idNoticias'] . '">Excluir</button>
+                                                        <a class="btn btn-success pull-right" href="ver.php?id=' . $record['idNoticias'] . '">Ver</a>
+                                                    </div>    
+                                                 </div>
+                                            </div>';
+                                }
+                                while ($record = mysqli_fetch_assoc($bdoe)) {
+                                    $sql = mysqli_query($conexao, "SELECT * FROM noticias WHERE idNoticias = '$record[noticias_idNoticias]' GROUP BY idNoticias");
+                                    while ($record = mysqli_fetch_assoc($sql)) {
                                         echo '<div class="panel panel-info resultpanel">
                                                  <div class="panel-body">
-                                                    <div class="col-lg-4">Titulo Original: '.$record['tituloOriginalNoticia'].'</div>
-                                                    <div class="col-lg-4">Titulo Portugues: '.$record['tituloOriginalNoticia'].'</div>
-                                                    <div class="col-lg-4">Fonte Noticia: '.$record['fonteNoticia'].'</div>
-                                                    <div class="col-lg-12">Link da Noticia: '.$record['linkNoticia'].'</div>
-                                                    <div class="col-lg-4">Data Publicação: '.date('d/m/Y', strtotime($record['dataPublicacao'])).'</div>
-                                                    <div class="col-lg-4">Data Atualização: '.date('d/m/Y', strtotime($record['dataAtualizacao'])).'</div>
-                                                    <div class="col-lg-4">Data Busca: '.date('d/m/Y', strtotime($record['dataBusca'])).'</div>
+                                                    <div class="col-lg-4">Titulo Original: ' . $record['tituloOriginalNoticia'] . '</div>
+                                                    <div class="col-lg-4">Titulo Portugues: ' . $record['tituloOriginalNoticia'] . '</div>
+                                                    <div class="col-lg-4">Fonte Noticia: ' . $record['fonteNoticia'] . '</div>
+                                                    <div class="col-lg-12">Link da Noticia: ' . $record['linkNoticia'] . '</div>
+                                                    <div class="col-lg-4">Data Publicação: ' . date('d/m/Y', strtotime($record['dataPublicacao'])) . '</div>
+                                                    <div class="col-lg-4">Data Atualização: ' . date('d/m/Y', strtotime($record['dataAtualizacao'])) . '</div>
+                                                    <div class="col-lg-4">Data Busca: ' . date('d/m/Y', strtotime($record['dataBusca'])) . '</div>
                                                     <div class="col-lg-12">
-                                                        <button class="btn btn-danger delete_product pull-right" style="margin-left: 10px;" data-id="'.$record['idNoticias'].'">Excluir</button>
-                                                        <a class="btn btn-success pull-right" href="ver.php?id='.$record['idNoticias'].'">Ver</a>
+                                                        <button class="btn btn-danger delete_product pull-right" style="margin-left: 10px;" data-id="' . $record['idNoticias'] . '">Excluir</button>
+                                                        <a class="btn btn-success pull-right" href="ver.php?id=' . $record['idNoticias'] . '">Ver</a>
                                                     </div>    
                                                  </div>
                                             </div>';
-                                    $i++;
+                                        $i++;
+                                    }
                                 }
-                            }
-                            while($record = mysqli_fetch_assoc($blin)) {
-                                $sql = mysqli_query($conexao, "SELECT * FROM dadosdoenca WHERE iddadosDoenca = '$record[dadosDoenca_iddadosDoenca]'");
-                                while($record = mysqli_fetch_assoc($sql)) {
-                                    $sql = mysqli_query($conexao, "SELECT * FROM noticias WHERE idNoticias = '$record[noticias_idNoticias]' GROUP BY idNoticias");
-                                    while($record = mysqli_fetch_assoc($sql)) {
-                                    echo '<div class="panel panel-info resultpanel">
+                                while ($record = mysqli_fetch_assoc($blin)) {
+                                    $sql = mysqli_query($conexao, "SELECT * FROM dadosdoenca WHERE iddadosDoenca = '$record[dadosDoenca_iddadosDoenca]'");
+                                    while ($record = mysqli_fetch_assoc($sql)) {
+                                        $sql = mysqli_query($conexao, "SELECT * FROM noticias WHERE idNoticias = '$record[noticias_idNoticias]' GROUP BY idNoticias");
+                                        while ($record = mysqli_fetch_assoc($sql)) {
+                                            echo '<div class="panel panel-info resultpanel">
                                                  <div class="panel-body">
-                                                    <div class="col-lg-4">Titulo Original: '.$record['tituloOriginalNoticia'].'</div>
-                                                    <div class="col-lg-4">Titulo Portugues: '.$record['tituloOriginalNoticia'].'</div>
-                                                    <div class="col-lg-4">Fonte Noticia: '.$record['fonteNoticia'].'</div>
-                                                    <div class="col-lg-12">Link da Noticia: '.$record['linkNoticia'].'</div>
-                                                    <div class="col-lg-4">Data Publicação: '.date('d/m/Y', strtotime($record['dataPublicacao'])).'</div>
-                                                    <div class="col-lg-4">Data Atualização: '.date('d/m/Y', strtotime($record['dataAtualizacao'])).'</div>
-                                                    <div class="col-lg-4">Data Busca: '.date('d/m/Y', strtotime($record['dataBusca'])).'</div>
+                                                    <div class="col-lg-4">Titulo Original: ' . $record['tituloOriginalNoticia'] . '</div>
+                                                    <div class="col-lg-4">Titulo Portugues: ' . $record['tituloOriginalNoticia'] . '</div>
+                                                    <div class="col-lg-4">Fonte Noticia: ' . $record['fonteNoticia'] . '</div>
+                                                    <div class="col-lg-12">Link da Noticia: ' . $record['linkNoticia'] . '</div>
+                                                    <div class="col-lg-4">Data Publicação: ' . date('d/m/Y', strtotime($record['dataPublicacao'])) . '</div>
+                                                    <div class="col-lg-4">Data Atualização: ' . date('d/m/Y', strtotime($record['dataAtualizacao'])) . '</div>
+                                                    <div class="col-lg-4">Data Busca: ' . date('d/m/Y', strtotime($record['dataBusca'])) . '</div>
                                                     <div class="col-lg-12">
-                                                        <button class="btn btn-danger delete_product pull-right" style="margin-left: 10px;" data-id="'.$record['idNoticias'].'">Excluir</button>
-                                                        <a class="btn btn-success pull-right" href="ver.php?id='.$record['idNoticias'].'">Ver</a>
+                                                        <button class="btn btn-danger delete_product pull-right" style="margin-left: 10px;" data-id="' . $record['idNoticias'] . '">Excluir</button>
+                                                        <a class="btn btn-success pull-right" href="ver.php?id=' . $record['idNoticias'] . '">Ver</a>
                                                     </div>    
                                                  </div>
                                             </div>';
-                                $i++;
-                            }
-                                }
+                                            $i++;
+                                        }
+                                    }
 
-                            }
-                            while($record = mysqli_fetch_assoc($blna)) {
-                                $sql = mysqli_query($conexao, "SELECT * FROM dadosdoenca WHERE iddadosDoenca = '$record[dadosDoenca_iddadosDoenca]'");
-                                while($record = mysqli_fetch_assoc($sql)) {
-                                    $sql = mysqli_query($conexao, "SELECT * FROM noticias WHERE idNoticias = '$record[noticias_idNoticias]' GROUP BY idNoticias");
-                                    while($record = mysqli_fetch_assoc($sql)) {
-                                    echo '<div class="panel panel-info resultpanel">
+                                }
+                                while ($record = mysqli_fetch_assoc($blna)) {
+                                    $sql = mysqli_query($conexao, "SELECT * FROM dadosdoenca WHERE iddadosDoenca = '$record[dadosDoenca_iddadosDoenca]'");
+                                    while ($record = mysqli_fetch_assoc($sql)) {
+                                        $sql = mysqli_query($conexao, "SELECT * FROM noticias WHERE idNoticias = '$record[noticias_idNoticias]' GROUP BY idNoticias");
+                                        while ($record = mysqli_fetch_assoc($sql)) {
+                                            echo '<div class="panel panel-info resultpanel">
                                                  <div class="panel-body">
-                                                    <div class="col-lg-4">Titulo Original: '.$record['tituloOriginalNoticia'].'</div>
-                                                    <div class="col-lg-4">Titulo Portugues: '.$record['tituloOriginalNoticia'].'</div>
-                                                    <div class="col-lg-4">Fonte Noticia: '.$record['fonteNoticia'].'</div>
-                                                    <div class="col-lg-12">Link da Noticia: '.$record['linkNoticia'].'</div>
-                                                    <div class="col-lg-4">Data Publicação: '.date('d/m/Y', strtotime($record['dataPublicacao'])).'</div>
-                                                    <div class="col-lg-4">Data Atualização: '.date('d/m/Y', strtotime($record['dataAtualizacao'])).'</div>
-                                                    <div class="col-lg-4">Data Busca: '.date('d/m/Y', strtotime($record['dataBusca'])).'</div>
+                                                    <div class="col-lg-4">Titulo Original: ' . $record['tituloOriginalNoticia'] . '</div>
+                                                    <div class="col-lg-4">Titulo Portugues: ' . $record['tituloOriginalNoticia'] . '</div>
+                                                    <div class="col-lg-4">Fonte Noticia: ' . $record['fonteNoticia'] . '</div>
+                                                    <div class="col-lg-12">Link da Noticia: ' . $record['linkNoticia'] . '</div>
+                                                    <div class="col-lg-4">Data Publicação: ' . date('d/m/Y', strtotime($record['dataPublicacao'])) . '</div>
+                                                    <div class="col-lg-4">Data Atualização: ' . date('d/m/Y', strtotime($record['dataAtualizacao'])) . '</div>
+                                                    <div class="col-lg-4">Data Busca: ' . date('d/m/Y', strtotime($record['dataBusca'])) . '</div>
                                                     <div class="col-lg-12">
-                                                        <button class="btn btn-danger delete_product pull-right" style="margin-left: 10px;" data-id="'.$record['idNoticias'].'">Excluir</button>
-                                                        <a class="btn btn-success pull-right" href="ver.php?id='.$record['idNoticias'].'">Ver</a>
+                                                        <button class="btn btn-danger delete_product pull-right" style="margin-left: 10px;" data-id="' . $record['idNoticias'] . '">Excluir</button>
+                                                        <a class="btn btn-success pull-right" href="ver.php?id=' . $record['idNoticias'] . '">Ver</a>
                                                     </div>    
                                                  </div>
                                             </div>';
-                                $i++;
-                            }
+                                            $i++;
+                                        }
+                                    }
                                 }
                             }
-
                         }
                         
                             ?>
